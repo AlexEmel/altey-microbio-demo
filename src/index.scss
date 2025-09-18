@@ -1,11 +1,11 @@
-@import './styles/vars';
-@import './styles/antd_override';
+@use './styles/vars';
+@use './styles/antd_override';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
   color-scheme: light dark;
-  color: $main-text;
+  color: vars.$main-text;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,7 +22,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   height: 100svh;
-  background-color: $main-white;
+  background-color: vars.$main-white;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

@@ -1,7 +1,15 @@
+import { useEffect } from "react"
+import { AppRouter } from "./routers/AppRouter"
+import { useAppDispatch } from "./store/store"
+import { getAntibiotics, getMicroorganisms } from "./features/microbio.slice";
+
 export const App = () => {
-  return (
-    <>
-      <h1>Altey microbio demo</h1>
-    </>
-  )
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getMicroorganisms());
+    dispatch(getAntibiotics())
+  }, [])
+
+  return <AppRouter />
 }

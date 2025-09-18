@@ -1,5 +1,5 @@
 @use 'sass:color';
-@import './vars';
+@use './vars';
 
 .ant-input-outlined:focus-within,
 .ant-input-outlined:hover,
@@ -7,148 +7,148 @@
 .ant-picker-outlined:hover,
 .ant-select-selector:focus-within,
 .ant-select-selector:hover {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 //button
 .ant-btn-primary {
-  background-color: $altey-blue;
+  background-color: vars.$altey-blue;
   &:hover {
-    background-color: $accent-orange !important;
+    background-color: vars.$accent-orange !important;
   }
 }
 
 // Default button hover (border + text color)
 .ant-btn.ant-btn-default:enabled:hover {
-  color: $accent-orange !important;
-  border-color: $altey-blue !important;
+  color: vars.$accent-orange !important;
+  border-color: vars.$altey-blue !important;
 }
 
 // Optional: Default button active/focus
 .ant-btn-default:focus,
 .ant-btn-default:active {
-  color: $altey-blue !important;
-  border-color: $altey-blue !important;
+  color: vars.$altey-blue !important;
+  border-color: vars.$altey-blue !important;
 }
 
 // checkbox
 .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: $accent-orange;
-  border-color: $accent-orange;
+  background-color: vars.$accent-orange;
+  border-color: vars.$accent-orange;
 }
 
 .ant-checkbox-checked:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
-  background-color: $accent-orange !important;
-  border-color: $accent-orange !important;
+  background-color: vars.$accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-checkbox:not(.ant-checkbox-checked):hover .ant-checkbox-inner {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-checkbox-input:focus + .ant-checkbox-inner {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
   .ant-checkbox-checked:not(.ant-checkbox-disabled)
   .ant-checkbox-inner {
-  background-color: $accent-orange !important;
-  border-color: $accent-orange !important;
+  background-color: vars.$accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-checkbox-wrapper:hover .ant-checkbox-inner {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-checkbox-wrapper:hover .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: $accent-orange !important;
-  border-color: $accent-orange !important;
+  background-color: vars.$accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-checkbox-indeterminate .ant-checkbox-inner:after {
-  background-color: $accent-orange !important;
+  background-color: vars.$accent-orange !important;
 }
 
 // tooltip
 .ant-tooltip-inner {
-  color: $main-text !important;
-  background-color: $main-white !important;
+  color: vars.$main-text !important;
+  background-color: vars.$main-white !important;
 }
 
 .ant-tooltip-arrow::before {
-  background-color: $main-white !important;
+  background-color: vars.$main-white !important;
 }
 
 // table rows selection
 .ant-table-row-selected > td {
-  background-color: $bg-beige !important;
+  background-color: vars.$bg-beige !important;
 }
 
 .ant-table-row-selected:hover > td {
-  background-color: color.adjust($bg-beige, $lightness: -5%) !important;
+  background-color: color.adjust(vars.$bg-beige, $lightness: -5%) !important;
 }
 
 // radio buttons
 .ant-radio-checked .ant-radio-inner {
-  border-color: $accent-orange !important;
-  background-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
+  background-color: vars.$accent-orange !important;
 }
 
 .ant-radio-wrapper:hover .ant-radio-inner,
 .ant-radio:hover .ant-radio-inner {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-radio-input:focus + .ant-radio-inner {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 // Tabs
 .ant-tabs-tab:hover {
-  color: $altey-blue !important;
+  color: vars.$altey-blue !important;
 }
 
 // Active tab text
 .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: $altey-blue !important;
+  color: vars.$altey-blue !important;
 }
 
 // Active underline (ink bar)
 .ant-tabs-ink-bar {
-  background-color: $accent-orange !important;
+  background-color: vars.$accent-orange !important;
 }
 
 // Typography
 .ant-typography {
-  color: $main-text !important;
+  color: vars.$main-text !important;
 }
 
 // Datepicker
 .ant-picker-cell-selected .ant-picker-cell-inner {
-  background-color: $accent-orange !important;
+  background-color: vars.$accent-orange !important;
   color: #fff !important;
 }
 
 .ant-picker-now-btn {
-  color: $altey-blue !important;
+  color: vars.$altey-blue !important;
 
   &:hover {
-    color: color.adjust($altey-blue, $lightness: -5%) !important;
+    color: color.adjust(vars.$altey-blue, $lightness: -5%) !important;
   }
 }
 
 .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
-  border: 1px solid $accent-orange !important;
+  border: 1px solid vars.$accent-orange !important;
 }
 
 // pagination
 .ant-pagination .ant-pagination-item-active a {
-  color: $accent-orange !important;
+  color: vars.$accent-orange !important;
 }
 
 .ant-pagination .ant-pagination-item-active {
-  border-color: $accent-orange !important;
+  border-color: vars.$accent-orange !important;
 }
 
 .ant-pagination .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
@@ -156,7 +156,7 @@
   .ant-pagination-jump-next
   .ant-pagination-item-container
   .ant-pagination-item-link-icon {
-  color: $accent-orange !important;
+  color: vars.$accent-orange !important;
 }
 
 // table td padding
