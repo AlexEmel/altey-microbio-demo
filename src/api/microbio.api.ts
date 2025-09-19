@@ -1,5 +1,12 @@
 import { IApiRes } from "@/interfaces/api.interface";
-import { IAntibiotic, IMicroorganism } from "@/interfaces/entities.interface";
+import {
+  IAntibiotic,
+  IExpertSystemReq,
+  IExpertSystemRes,
+  IMicroorganism,
+  IZoneReq,
+  IZoneRes,
+} from "@/interfaces/entities.interface";
 import { handleApiRes } from "@/utils/api.util";
 import { AxiosInstance } from "axios";
 
@@ -13,14 +20,18 @@ export class MicrobioApi {
   }
 
   public async getMicroorganisms(): Promise<IApiRes<IMicroorganism[]>> {
-    return await handleApiRes<IApiRes<IMicroorganism[]>>(
-      this.api.get(`${this.path}/microorganisms`)
-    );
+    return await handleApiRes<IApiRes<IMicroorganism[]>>(this.api.get(`${this.path}/microorganisms`));
   }
 
-    public async getAntibiotics(): Promise<IApiRes<IAntibiotic[]>> {
-    return await handleApiRes<IApiRes<IAntibiotic[]>>(
-      this.api.get(`${this.path}/antibiotics`)
-    );
+  public async getAntibiotics(): Promise<IApiRes<IAntibiotic[]>> {
+    return await handleApiRes<IApiRes<IAntibiotic[]>>(this.api.get(`${this.path}/antibiotics`));
+  }
+
+  public async getZone(payload: IZoneReq): Promise<IApiRes<IZoneRes>> {
+    return await handleApiRes<IApiRes<IZoneRes>>(this.api.post(`${this.path}/give-sir`, payload));
+  }
+
+  public async interpetate(payload: IExpertSystemReq): Promise<IApiRes<IExpertSystemRes>> {
+    return await handleApiRes<IApiRes<IExpertSystemRes>>(this.api.post(`${this.path}/give-es`, payload));
   }
 }

@@ -9,9 +9,34 @@ export interface IAntibiotic {
   name: string;
 }
 
-export interface IZone {
+export interface IZoneReq {
+  antibioticCode: string;
+  antibioticName: string;
   value: string;
 }
 
-export interface IAntibiogram {
+export interface IZoneRes extends IZoneReq {
+  SIR: string;
+}
+
+export interface IExpertSystemReq {
+  es: string;
+  microorganisms: {
+    microorganismCode: string;
+    antibiotics: IZoneRes[];
+  }[];
+}
+
+export interface IExpertSystemRes {
+  es: string;
+  microorganisms: {
+    microorganismCode: string;
+    antibiotics: IZoneRes[];
+    markers: {
+      markerCode: string;
+      markerName: string;
+    }[];
+    esDescription: string;
+    interpretation: string[];
+  }[];
 }
