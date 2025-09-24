@@ -1,6 +1,7 @@
 import { useAppSelector } from "@/store/store";
 import { Tabs, TabsProps } from "antd";
 import { ReactNode, useMemo, useState } from "react";
+import { AddAntibioticForm } from "../AddAntibioticForm/AddAntibioticForm";
 
 export const MicroorganismTabs = (): ReactNode => {
   const { selectedMos } = useAppSelector((store) => store.microbio.antibiogram);
@@ -10,7 +11,7 @@ export const MicroorganismTabs = (): ReactNode => {
       return selectedMos.map((mo) => ({
         key: mo.id,
         label: mo.name,
-        children: <h1>{mo.name}</h1>,
+        children: <AddAntibioticForm moId={mo.id}/>,
       }));
   }, [selectedMos]);
 

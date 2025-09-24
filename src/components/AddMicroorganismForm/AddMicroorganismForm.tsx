@@ -63,6 +63,7 @@ export const AddMicroorganismForm = (): ReactNode => {
       setSelectedMos(updatedMos);
     } else {
       setSelectedMos([{ id: uuidv4(), code: "", name: "" }]);
+      dispatch(setAntibiogramMos([]));
     }
   };
 
@@ -79,7 +80,7 @@ export const AddMicroorganismForm = (): ReactNode => {
     <Flex className={styles.formbox}>
       <Title level={3}>Шаг 1. Выберите микроорганизм</Title>
       {selectedMos.map((mo) => (
-        <Flex>
+        <Flex key={mo.id}>
           <Select
             placeholder="Выберите микроорганизм"
             optionFilterProp="label"

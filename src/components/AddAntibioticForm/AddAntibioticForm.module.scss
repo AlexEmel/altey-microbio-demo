@@ -1,0 +1,13 @@
+@use '../../styles/vars';
+
+.formbox {
+  gap: 0.5rem;
+  display: flex;
+  width: 50%;
+  min-width: 300px;
+  flex-direction: column;
+  background-color: vars.$main-white;
+  .select {
+    flex: 1;
+  }
+}

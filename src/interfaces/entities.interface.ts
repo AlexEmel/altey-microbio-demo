@@ -12,6 +12,12 @@ export interface IAntibiotic {
   name: string;
 }
 
+export interface ISelectedAntibiotic extends IAntibiotic {
+  id: string;
+  moId: string;
+}
+
+
 export interface IZoneReq {
   antibioticCode: string;
   antibioticName: string;

@@ -4,6 +4,7 @@ import {
   IExpertSystemReq,
   IExpertSystemRes,
   IMicroorganism,
+  ISelectedAntibiotic,
   ISelectedMicroorganism,
   IZoneReq,
   IZoneRes,
@@ -14,6 +15,7 @@ interface IAppState {
   isLoading: boolean;
   antibiogram: {
     selectedMos: ISelectedMicroorganism[];
+    selectedAbx: ISelectedAntibiotic[];
   };
   dictionaries: {
     microorganisms: IMicroorganism[];
@@ -25,6 +27,7 @@ const initialState: IAppState = {
   isLoading: false,
   antibiogram: {
     selectedMos: [],
+    selectedAbx: [],
   },
   dictionaries: {
     microorganisms: [],
@@ -96,6 +99,9 @@ export const microbioSlice = createSlice({
     setAntibiogramMos: (state, action: PayloadAction<ISelectedMicroorganism[]>) => {
       state.antibiogram.selectedMos = action.payload;
     },
+    setAntibiogramAbx: (state, action: PayloadAction<ISelectedAntibiotic[]>) => {
+      state.antibiogram.selectedAbx = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -142,4 +148,4 @@ export const microbioSlice = createSlice({
   },
 });
 
-export const { reset, setAntibiogramMos } = microbioSlice.actions;
+export const { reset, setAntibiogramMos, setAntibiogramAbx } = microbioSlice.actions;
