@@ -4,6 +4,7 @@ import {
   IExpertSystemReq,
   IExpertSystemRes,
   IMicroorganism,
+  ISelectedMicroorganism,
   IZoneReq,
   IZoneRes,
 } from "@/interfaces/entities.interface";
@@ -12,7 +13,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface IAppState {
   isLoading: boolean;
   antibiogram: {
-    selectedMos: IMicroorganism[];
+    selectedMos: ISelectedMicroorganism[];
   };
   dictionaries: {
     microorganisms: IMicroorganism[];
@@ -92,7 +93,7 @@ export const microbioSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
-    setAntibiogramMos: (state, action: PayloadAction<IMicroorganism[]>) => {
+    setAntibiogramMos: (state, action: PayloadAction<ISelectedMicroorganism[]>) => {
       state.antibiogram.selectedMos = action.payload;
     },
   },

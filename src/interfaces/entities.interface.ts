@@ -1,7 +1,10 @@
 export interface IMicroorganism {
-  _id?: string;
   code: string;
   name: string;
+}
+
+export interface ISelectedMicroorganism extends IMicroorganism {
+  id: string;
 }
 
 export interface IAntibiotic {
