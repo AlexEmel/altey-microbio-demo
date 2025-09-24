@@ -7,6 +7,7 @@ import { Button, Flex, Select } from "antd";
 import Title from "antd/es/typography/Title";
 import { ReactNode, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import styles from './AddMicroorganismForm.module.scss';
 
 export const AddMicroorganismForm = (): ReactNode => {
   const [selectedMos, setSelectedMos] = useState<IMicroorganism[]>([{ _id: uuidv4(), code: "", name: "" }]);
@@ -26,7 +27,6 @@ export const AddMicroorganismForm = (): ReactNode => {
 
   useEffect(() => {
     if (selectedMos.length === 1 && !selectedMos[0].code) {
-      console.log("false");
       return;
     } else {
       dispatch(setAntibiogramMos(selectedMos));
@@ -34,6 +34,9 @@ export const AddMicroorganismForm = (): ReactNode => {
   }, [selectedMos, dispatch]);
 
   const addRow = (): void => {
+    if (!selectedMos[selectedMos.length - 1].code) {
+      return;
+    }
     const newRow: IMicroorganism = {
       _id: uuidv4(),
       code: "",
@@ -61,7 +64,7 @@ export const AddMicroorganismForm = (): ReactNode => {
   };
 
   return (
-    <Flex vertical>
+    <Flex className={styles.formbox}>
       <Title level={3}>Шаг 1. Выберите микроорганизм</Title>
       {selectedMos.map((mo) => (
         <Flex>
@@ -73,11 +76,12 @@ export const AddMicroorganismForm = (): ReactNode => {
             allowClear
             value={mo.code}
             onChange={(_, option) => handleSelectChange(mo._id!, option as ISelectOptions)}
+            className={styles.select}
           />
-          <Button icon={<PlusSquareOutlined />} onClick={addRow}></Button>
           <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo._id!)}></Button>
         </Flex>
       ))}
+      <Button icon={<PlusSquareOutlined />} onClick={addRow}>Добавить микроорганизм</Button>
     </Flex>
   );
 };

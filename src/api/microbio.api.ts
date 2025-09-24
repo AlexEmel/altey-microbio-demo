@@ -31,7 +31,7 @@ export class MicrobioApi {
     return await handleApiRes<IApiRes<IZoneRes>>(this.api.post(`${this.path}/give-sir`, payload));
   }
 
-  public async interpetate(payload: IExpertSystemReq): Promise<IApiRes<IExpertSystemRes>> {
+  public async evaluate(payload: IExpertSystemReq): Promise<IApiRes<IExpertSystemRes>> {
     return await handleApiRes<IApiRes<IExpertSystemRes>>(this.api.post(`${this.path}/give-es`, payload));
   }
 }

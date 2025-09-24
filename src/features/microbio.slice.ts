@@ -13,7 +13,7 @@ interface IAppState {
   isLoading: boolean;
   antibiogram: {
     selectedMos: IMicroorganism[];
-  }
+  };
   dictionaries: {
     microorganisms: IMicroorganism[];
     antibiotics: IAntibiotic[];
@@ -73,10 +73,10 @@ export const getZone = createAsyncThunk<IZoneRes, IZoneReq, { rejectValue: strin
   }
 );
 
-export const interpretate = createAsyncThunk<IExpertSystemRes, IExpertSystemReq, { rejectValue: string }>(
-  "interpretate",
+export const evaluate = createAsyncThunk<IExpertSystemRes, IExpertSystemReq, { rejectValue: string }>(
+  "evaluate",
   async (req, { rejectWithValue }) => {
-    const res = await microbioApi.interpetate(req);
+    const res = await microbioApi.evaluate(req);
     if (res.success && res.payload) {
       return res.payload;
     }
@@ -128,14 +128,14 @@ export const microbioSlice = createSlice({
       .addCase(getZone.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(interpretate.pending, (state) => {
+      .addCase(evaluate.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(interpretate.fulfilled, (state) => {
+      .addCase(evaluate.fulfilled, (state) => {
         state.isLoading = false;
         //implement later
       })
-      .addCase(interpretate.rejected, (state) => {
+      .addCase(evaluate.rejected, (state) => {
         state.isLoading = false;
       });
   },
