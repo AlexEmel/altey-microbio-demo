@@ -1,6 +1,32 @@
-@use '../../styles/vars';
+@use "../../styles/vars";
 
 .appheader {
   height: 60px;
-  background-color: vars.$bg-blue;
+  padding: 0.5rem;
+  background-color: vars.$altey-blue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  .titleBox {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    .logo {
+      opacity: 0.8;
+      height: 30px;
+    }
+    .title {
+      padding: 0;
+      margin: 0;
+      color: vars.$main-white !important;
+      font-weight: 400;
+    }
+  }
+  .link {
+    color: vars.$main-white;
+  }
 }

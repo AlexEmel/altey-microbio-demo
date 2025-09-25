@@ -1,5 +1,6 @@
 @use './styles/vars';
 @use './styles/antd_override';
+@use 'sass:color';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -22,7 +23,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   height: 100svh;
-  background-color: vars.$bg-light-blue;
+  background-color: color.adjust(vars.$bg-blue, $lightness: 7%);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

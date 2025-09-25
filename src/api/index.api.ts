@@ -7,6 +7,10 @@ type AppStore = Store<TRootState>;
 
 export const apiAxios = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  auth: {
+    username: import.meta.env.VITE_API_USERNAME,
+    password: import.meta.env.VITE_API_PASSWORD,
+  },
 });
 
 let appStore: AppStore;

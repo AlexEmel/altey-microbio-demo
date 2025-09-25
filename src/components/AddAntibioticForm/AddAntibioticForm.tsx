@@ -1,5 +1,5 @@
 import { microbioApi } from "@/api/index.api";
-import { setAntibiogramAbxs } from "@/features/microbio.slice";
+import { setAntibiogramAbxs, setIsLoading } from "@/features/microbio.slice";
 import { ISelectedAntibiotic, IZoneReq } from "@/interfaces/entities.interface";
 import { ISelectOptions } from "@/interfaces/utils.interface";
 import { useAppDispatch, useAppSelector } from "@/store/store";
@@ -18,8 +18,8 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
   const [selectedAbxs, setSelectedAbxs] = useState<ISelectedAntibiotic[]>([getDummyAbx(moId)]);
   const { antibiotics } = useAppSelector((store) => store.microbio.dictionaries);
   const { selectedMos } = useAppSelector((store) => store.microbio.antibiogram);
+  const { isLoading } = useAppSelector((store) => store.microbio);
   const [selectOptions, setSelectOptions] = useState<ISelectOptions[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
 
   const handleZoneBlur = async (antibiotic: ISelectedAntibiotic): Promise<void> => {
     try {
-      setIsLoading(true);
+      dispatch(setIsLoading(true))
       const targetMo = selectedMos.find((mo) => mo.id === moId);
       if (targetMo && antibiotic.zone) {
         const payload: IZoneReq = {
@@ -101,7 +101,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     } catch (error) {
       console.log("Error getting SIR from server");
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -119,7 +119,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     <Flex className={styles.formbox}>
       <Title level={3}>Шаг 2. Выберите антибиотики и введите значения для расчета чувствительности</Title>
       {selectedAbxs.map((abx) => (
-        <Flex key={abx.id}>
+        <Flex key={abx.id} className={styles.inputBox}>
           <Select
             placeholder="Выберите антибиотик"
             optionFilterProp="label"
@@ -135,11 +135,11 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
             onBlur={() => handleZoneBlur(abx)}
             disabled={isLoading}
           />
-          <Input readOnly value={abx.SIR} />
+          <Input readOnly value={abx.SIR} className={styles.sir} />
           <Button icon={<DeleteOutlined />} onClick={() => handleRemoveAbx(abx.id)}></Button>
         </Flex>
       ))}
-      <Button icon={<PlusSquareOutlined />} onClick={addRow}>
+      <Button type="primary" icon={<PlusSquareOutlined />} onClick={addRow}>
         Добавить антибиотик
       </Button>
     </Flex>

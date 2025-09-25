@@ -3,7 +3,8 @@ import { AppHeader } from "@/components/Header/AppHeader";
 import { ReactNode } from "react";
 import styles from "./MicrobioPage.module.scss";
 import { Flex } from "antd";
-import { MicroorganismTabs } from "@/components/MicroorganismTabs/MicroorganimTabs";
+import { MicroorganismTabs } from "@/components/MicroorganismTabs/MicroorganismTabs";
+import { Evaluation } from "@/components/Evaluation/Evaluation";
 
 export const MicrobioPage = (): ReactNode => {
   return (<>
@@ -12,6 +13,7 @@ export const MicrobioPage = (): ReactNode => {
     <Flex className={styles.container}>
       <AddMicroorganismForm />
       <MicroorganismTabs />
+      <Evaluation />
     </Flex>
   </>
   );

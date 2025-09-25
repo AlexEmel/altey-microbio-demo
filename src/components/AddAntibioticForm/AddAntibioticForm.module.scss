@@ -1,13 +1,23 @@
-@use '../../styles/vars';
+@use "../../styles/vars";
 
 .formbox {
-  gap: 0.5rem;
+  gap: 1rem;
   display: flex;
-  width: 50%;
-  min-width: 300px;
+  width: 100%;
   flex-direction: column;
   background-color: vars.$main-white;
-  .select {
-    flex: 1;
+  align-items: flex-start;
+  .inputBox {
+    width: 100%;
+    gap: 0.5rem;
+    flex-grow: 1;
+    .select {
+      flex: 1;
+    }
+    .sir {
+      width: 50px;
+      display: flex;
+      text-align: center;
+    }
   }
 }

@@ -12,9 +12,9 @@
 
 //button
 .ant-btn-primary {
-  background-color: vars.$altey-blue;
+  background-color: color.adjust(vars.$accent-orange, $lightness: -7%);
   &:hover {
-    background-color: vars.$accent-orange !important;
+    background-color: color.adjust(vars.$accent-orange, $lightness: -15%) !important;
   }
 }
 

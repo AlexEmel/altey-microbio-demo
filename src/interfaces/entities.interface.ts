@@ -16,7 +16,7 @@ export interface ISelectedAntibiotic extends IAntibiotic {
   id: string;
   moId: string;
   zone: number | null;
-  SIR: string; 
+  SIR: string;
 }
 
 export interface IZoneReq {
@@ -30,7 +30,7 @@ export interface IZoneRes extends IZoneReq {
   SIR: string;
 }
 
-export interface IExpertSystemReq {
+export interface IEvaluateReq {
   es: string;
   microorganisms: {
     microorganismCode: string;
@@ -38,7 +38,7 @@ export interface IExpertSystemReq {
   }[];
 }
 
-export interface IExpertSystemRes {
+export interface IEvaluateRes {
   es: string;
   microorganisms: {
     microorganismCode: string;

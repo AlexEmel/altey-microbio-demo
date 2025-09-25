@@ -1,8 +1,8 @@
 import { microbioApi } from "@/api/index.api";
 import {
   IAntibiotic,
-  IExpertSystemReq,
-  IExpertSystemRes,
+  IEvaluateReq,
+  IEvaluateRes,
   IMicroorganism,
   ISelectedAntibiotic,
   ISelectedMicroorganism,
@@ -88,9 +88,10 @@ export const getZone = createAsyncThunk<IZoneRes, string, { rejectValue: string 
   }
 );
 
-export const evaluate = createAsyncThunk<IExpertSystemRes, IExpertSystemReq, { rejectValue: string }>(
+export const evaluate = createAsyncThunk<IEvaluateRes, IEvaluateReq, { rejectValue: string }>(
   "evaluate",
-  async (req, { rejectWithValue }) => {
+  async (req, { rejectWithValue, getState }) => {
+    // const { microbio } = getState() as TRootState;
     const res = await microbioApi.evaluate(req);
     if (res.success && res.payload) {
       return res.payload;
@@ -107,6 +108,9 @@ export const microbioSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     setAntibiogramMos: (state, action: PayloadAction<ISelectedMicroorganism[]>) => {
       state.antibiogram.selectedMos = action.payload;
     },
@@ -162,4 +166,4 @@ export const microbioSlice = createSlice({
   },
 });
 
-export const { reset, setAntibiogramMos, setAntibiogramAbxs } = microbioSlice.actions;
+export const { reset, setIsLoading, setAntibiogramMos, setAntibiogramAbxs } = microbioSlice.actions;

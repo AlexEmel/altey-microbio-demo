@@ -3,7 +3,7 @@ import { ISelectedMicroorganism } from "@/interfaces/entities.interface";
 import { ISelectOptions } from "@/interfaces/utils.interface";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
-import { Button, Flex, Select } from "antd";
+import { Button, Flex, Select, Tooltip } from "antd";
 import Title from "antd/es/typography/Title";
 import { ReactNode, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -78,24 +78,26 @@ export const AddMicroorganismForm = (): ReactNode => {
 
   return (
     <Flex className={styles.formbox}>
-      <Title level={3}>Шаг 1. Выберите микроорганизм</Title>
+      <Title level={3}>Шаг 1. Выберите микроорганизмы</Title>
       {selectedMos.map((mo) => (
-        <Flex key={mo.id}>
+        <Flex key={mo.id} className={styles.inputBox}>
           <Select
             placeholder="Выберите микроорганизм"
             optionFilterProp="label"
             options={selectOptions}
             showSearch
             allowClear
-            value={mo.code}
+            value={mo.code || undefined}
             onChange={(_, option) => handleSelectChange(mo.id, option as ISelectOptions | undefined)}
             onClear={() => handleClearSelect(mo.id)}
             className={styles.select}
           />
-          <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo.id)}></Button>
+          <Tooltip title='Удалить микроорганизм' mouseEnterDelay={0.4}>
+            <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo.id)}></Button>
+          </Tooltip>
         </Flex>
       ))}
-      <Button icon={<PlusSquareOutlined />} onClick={addRow}>
+      <Button type="primary" icon={<PlusSquareOutlined />} onClick={addRow}>
         Добавить микроорганизм
       </Button>
     </Flex>
