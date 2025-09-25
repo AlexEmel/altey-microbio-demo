@@ -15,16 +15,18 @@ export interface IAntibiotic {
 export interface ISelectedAntibiotic extends IAntibiotic {
   id: string;
   moId: string;
+  zone: number | null;
+  SIR: string; 
 }
 
-
 export interface IZoneReq {
+  microorganismCode: string;
   antibioticCode: string;
-  antibioticName: string;
-  value: string;
+  zone: string;
 }
 
 export interface IZoneRes extends IZoneReq {
+  abxId?: string;
   SIR: string;
 }
 

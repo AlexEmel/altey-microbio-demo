@@ -9,13 +9,14 @@ import {
   IZoneReq,
   IZoneRes,
 } from "@/interfaces/entities.interface";
+import { TRootState } from "@/store/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IAppState {
   isLoading: boolean;
   antibiogram: {
     selectedMos: ISelectedMicroorganism[];
-    selectedAbx: ISelectedAntibiotic[];
+    selectedAbxs: ISelectedAntibiotic[];
   };
   dictionaries: {
     microorganisms: IMicroorganism[];
@@ -27,7 +28,7 @@ const initialState: IAppState = {
   isLoading: false,
   antibiogram: {
     selectedMos: [],
-    selectedAbx: [],
+    selectedAbxs: [],
   },
   dictionaries: {
     microorganisms: [],
@@ -63,15 +64,25 @@ export const getAntibiotics = createAsyncThunk<IAntibiotic[], undefined, { rejec
   }
 );
 
-export const getZone = createAsyncThunk<IZoneRes, IZoneReq, { rejectValue: string }>(
+export const getZone = createAsyncThunk<IZoneRes, string, { rejectValue: string }>(
   "getZone",
-  async (req, { rejectWithValue }) => {
-    const res = await microbioApi.getZone(req);
-    if (res.success && res.payload) {
-      return res.payload;
-    }
-    if (!res.success && res.error) {
-      return rejectWithValue(res.error!);
+  async (abxId, { rejectWithValue, getState }) => {
+    const { microbio } = getState() as TRootState;
+    const targetAbx = microbio.antibiogram.selectedAbxs.find((abx) => abx.id === abxId);
+    const targetMo = microbio.antibiogram.selectedMos.find((mo) => mo.id === targetAbx?.moId);
+    if (targetMo && targetAbx && targetAbx.zone) {
+      const payload: IZoneReq = {
+        microorganismCode: targetMo.code,
+        antibioticCode: targetAbx.code,
+        zone: targetAbx.zone.toString(),
+      };
+      const res = await microbioApi.getZone(payload);
+      if (res.success && res.payload) {
+        return { ...res.payload, abxId: targetAbx.id };
+      }
+      if (!res.success && res.error) {
+        return rejectWithValue(res.error!);
+      }
     }
     return rejectWithValue("Unexpected error occurred");
   }
@@ -99,8 +110,8 @@ export const microbioSlice = createSlice({
     setAntibiogramMos: (state, action: PayloadAction<ISelectedMicroorganism[]>) => {
       state.antibiogram.selectedMos = action.payload;
     },
-    setAntibiogramAbx: (state, action: PayloadAction<ISelectedAntibiotic[]>) => {
-      state.antibiogram.selectedAbx = action.payload;
+    setAntibiogramAbxs: (state, action: PayloadAction<ISelectedAntibiotic[]>) => {
+      state.antibiogram.selectedAbxs = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -128,9 +139,12 @@ export const microbioSlice = createSlice({
       .addCase(getZone.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getZone.fulfilled, (state) => {
+      .addCase(getZone.fulfilled, (state, action) => {
         state.isLoading = false;
-        //implement later
+        const targetAbx = state.antibiogram.selectedAbxs.find((abx) => abx.id === action.payload.abxId);
+        if (targetAbx) {
+          targetAbx.SIR = action.payload.SIR;
+        }
       })
       .addCase(getZone.rejected, (state) => {
         state.isLoading = false;
@@ -148,4 +162,4 @@ export const microbioSlice = createSlice({
   },
 });
 
-export const { reset, setAntibiogramMos, setAntibiogramAbx } = microbioSlice.actions;
+export const { reset, setAntibiogramMos, setAntibiogramAbxs } = microbioSlice.actions;

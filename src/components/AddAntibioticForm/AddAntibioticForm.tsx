@@ -1,24 +1,25 @@
-import { setAntibiogramAbx } from "@/features/microbio.slice";
-import { ISelectedAntibiotic } from "@/interfaces/entities.interface";
+import { microbioApi } from "@/api/index.api";
+import { setAntibiogramAbxs } from "@/features/microbio.slice";
+import { ISelectedAntibiotic, IZoneReq } from "@/interfaces/entities.interface";
 import { ISelectOptions } from "@/interfaces/utils.interface";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { Button, Flex, Select } from "antd";
-import { FC, ReactNode, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import styles from "./AddAntibioticForm.module.scss";
-import Title from "antd/es/typography/Title";
+import { getDummyAbx } from "@/utils/mocks.util";
 import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import { Button, Flex, Input, InputNumber, Select } from "antd";
+import Title from "antd/es/typography/Title";
+import { FC, ReactNode, useEffect, useState } from "react";
+import styles from "./AddAntibioticForm.module.scss";
 
 interface IAddAntibioticProps {
   moId: string;
 }
 
 export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode => {
-  const [selectedAbxs, setSelectedAbxs] = useState<ISelectedAntibiotic[]>([
-    { id: uuidv4(), moId, code: "", name: "" },
-  ]);
+  const [selectedAbxs, setSelectedAbxs] = useState<ISelectedAntibiotic[]>([getDummyAbx(moId)]);
   const { antibiotics } = useAppSelector((store) => store.microbio.dictionaries);
+  const { selectedMos } = useAppSelector((store) => store.microbio.antibiogram);
   const [selectOptions, setSelectOptions] = useState<ISelectOptions[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     if (selectedAbxs.length === 1 && !selectedAbxs[0].code) {
       return;
     } else {
-      dispatch(setAntibiogramAbx(selectedAbxs));
+      dispatch(setAntibiogramAbxs(selectedAbxs));
     }
   }, [selectedAbxs, dispatch]);
 
@@ -43,25 +44,65 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     if (!selectedAbxs[selectedAbxs.length - 1].code) {
       return;
     }
-    const newRow: ISelectedAntibiotic = {
-      id: uuidv4(),
-      moId,
-      code: "",
-      name: "",
-    };
+    const newRow = getDummyAbx(moId);
     setSelectedAbxs([...selectedAbxs, newRow]);
   };
 
-  const handleSelectChange = (id: string, option: ISelectOptions | undefined): void => {
+  const handleSelectAbxChange = (id: string, option: ISelectOptions | undefined): void => {
     if (!option) {
       return;
     }
     const updatedAbxs = selectedAbxs.map((abx) => {
       if (abx.id === id) {
         return { ...abx, code: option.value, name: option.label };
-      } else return abx;
+      } else {
+        return abx;
+      }
     });
     setSelectedAbxs(updatedAbxs);
+  };
+
+  const handleZoneChange = (abxId: string, zone: number | null): void => {
+    if (!zone) {
+      return;
+    }
+    const updatedAbxs = selectedAbxs.map((abx) => {
+      if (abx.id === abxId) {
+        return { ...abx, zone };
+      } else {
+        return abx;
+      }
+    });
+    setSelectedAbxs(updatedAbxs);
+  };
+
+  const handleZoneBlur = async (antibiotic: ISelectedAntibiotic): Promise<void> => {
+    try {
+      setIsLoading(true);
+      const targetMo = selectedMos.find((mo) => mo.id === moId);
+      if (targetMo && antibiotic.zone) {
+        const payload: IZoneReq = {
+          microorganismCode: targetMo.code,
+          antibioticCode: antibiotic.code,
+          zone: antibiotic.zone.toString(),
+        };
+        const res = await microbioApi.getZone(payload);
+        if (res.success && res.payload) {
+          const updatedAbxs = selectedAbxs.map((abx) => {
+            if (abx.id === antibiotic.id) {
+              return { ...abx, SIR: res.payload!.SIR };
+            } else {
+              return abx;
+            }
+          });
+          setSelectedAbxs(updatedAbxs);
+        }
+      }
+    } catch (error) {
+      console.log("Error getting SIR from server");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRemoveAbx = (id: string): void => {
@@ -69,14 +110,14 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     if (updatedAbxs.length > 0) {
       setSelectedAbxs(updatedAbxs);
     } else {
-      setSelectedAbxs([{ id: uuidv4(), moId, code: "", name: "" }]);
-      dispatch(setAntibiogramAbx([]));
+      setSelectedAbxs([getDummyAbx(moId)]);
+      dispatch(setAntibiogramAbxs([]));
     }
   };
 
   return (
     <Flex className={styles.formbox}>
-      <Title level={3}>Шаг 2. Выберите антибиотики и введите значения для рассчета чувствительности</Title>
+      <Title level={3}>Шаг 2. Выберите антибиотики и введите значения для расчета чувствительности</Title>
       {selectedAbxs.map((abx) => (
         <Flex key={abx.id}>
           <Select
@@ -85,9 +126,16 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
             options={selectOptions}
             showSearch
             value={abx.code}
-            onChange={(_, option) => handleSelectChange(abx.id, option as ISelectOptions | undefined)}
+            onChange={(_, option) => handleSelectAbxChange(abx.id, option as ISelectOptions | undefined)}
             className={styles.select}
           />
+          <InputNumber
+            value={abx.zone}
+            onChange={(value) => handleZoneChange(abx.id, value)}
+            onBlur={() => handleZoneBlur(abx)}
+            disabled={isLoading}
+          />
+          <Input readOnly value={abx.SIR} />
           <Button icon={<DeleteOutlined />} onClick={() => handleRemoveAbx(abx.id)}></Button>
         </Flex>
       ))}
