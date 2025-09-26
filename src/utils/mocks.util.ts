@@ -8,6 +8,6 @@ export const getDummyAbx = (moId: string): ISelectedAntibiotic => {
     code: "",
     name: "",
     zone: null,
-    SIR: "",
+    SIR: '',
   };
 };

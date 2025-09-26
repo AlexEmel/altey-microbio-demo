@@ -20,13 +20,30 @@
         flex: 1;
       }
       .zone {
-        width: 70px;
+        width: 80px;
         text-align: center;
       }
       .sir {
         width: 50px;
         display: flex;
         text-align: center;
+      }
+      .abxHeader {
+        display: flex;
+        flex-grow: 1;
+      }
+      .zoneHeader {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+      }
+      .sirHeader {
+        width: 50px;
+        display: flex;
+        justify-content: center;
+      }
+      .btnHeader {
+        width: 32px;
       }
     }
   }

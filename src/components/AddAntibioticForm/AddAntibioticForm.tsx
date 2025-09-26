@@ -45,6 +45,10 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
       (opt) => !selectedAbxs.find((abx) => abx.code === opt.value)
     );
     setFilteredOpts(updatedFilteredOpts);
+
+    return () => {
+      dispatch(setAntibiogramAbxsForMo({ moId, abxs: [] }));
+    };
   }, [selectedAbxs, dispatch]);
 
   const addRow = (): void => {
@@ -61,7 +65,11 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     }
     const updatedAbxs = selectedAbxs.map((abx) => {
       if (abx.id === id) {
-        return { ...abx, code: option.value, name: option.label };
+        if (abx.code && abx.code !== option.value) {
+          return { ...abx, code: option.value, name: option.label, zone: null, SIR: '' };
+        } else {
+          return { ...abx, code: option.value, name: option.label };
+        }
       } else {
         return abx;
       }
@@ -122,7 +130,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     }
   };
 
-  const getSirClasses = (value: ESusceptibility): string => {
+  const getSirClasses = (value: ESusceptibility | string): string => {
     const classes = [styles.sir];
     switch (value) {
       case ESusceptibility.S:
@@ -147,8 +155,11 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     <Flex className={styles.formbox}>
       <Title level={3}>Шаг 2. Внесите результаты определения чувствительности к антибиотикам</Title>
       <Flex className={styles.abxList}>
-        <Flex>
-          <span>Антибиотик</span>
+        <Flex className={styles.inputBox}>
+          <div className={styles.abxHeader}>Антибиотик</div>
+          <div className={styles.zoneHeader}>Значение</div>
+          <div className={styles.sirHeader}>SIR</div>
+          <div className={styles.btnHeader}></div>
         </Flex>
         {selectedAbxs.map((abx) => (
           <Flex key={abx.id} className={styles.inputBox}>

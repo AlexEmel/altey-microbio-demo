@@ -18,7 +18,8 @@ export const Evaluation = (): ReactNode => {
 
   return (
     <Flex className={styles.formbox}>
-      <Title level={3}>Шаг 3. Интерпретация результатов</Title>
+      <Title level={3}>Шаг 3. Интерпретация результатов по EUCAST2025</Title>
+      <p>Определение чувствительности микроорганизмов к антимикробным препаратам КМАХ Версия 2025-01</p>
       <Button type="primary" disabled={isLoading} onClick={handleEvaluate}>
         Интерпретировать результаты
       </Button>

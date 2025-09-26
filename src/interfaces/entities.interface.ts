@@ -18,7 +18,7 @@ export interface ISelectedAntibiotic extends IAntibiotic {
   id: string;
   moId: string;
   zone: number | null;
-  SIR: ESusceptibility;
+  SIR: ESusceptibility | string;
 }
 
 export interface IZoneReq {
