@@ -21,6 +21,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
   const { selectedMos } = useAppSelector((store) => store.microbio.antibiogram);
   const { isLoading } = useAppSelector((store) => store.microbio);
   const [selectOptions, setSelectOptions] = useState<ISelectOptions[]>([]);
+  const [filteredOpts, setFilteredOpts] = useState<ISelectOptions[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
       };
     });
     setSelectOptions(options);
+    setFilteredOpts(options);
   }, [antibiotics]);
 
   useEffect(() => {
@@ -39,6 +41,10 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     } else {
       dispatch(setAntibiogramAbxsForMo({ moId, abxs: selectedAbxs }));
     }
+    const updatedFilteredOpts = selectOptions.filter(
+      (opt) => !selectedAbxs.find((abx) => abx.code === opt.value)
+    );
+    setFilteredOpts(updatedFilteredOpts);
   }, [selectedAbxs, dispatch]);
 
   const addRow = (): void => {
@@ -149,7 +155,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
             <Select
               placeholder="Выберите антибиотик"
               optionFilterProp="label"
-              options={selectOptions}
+              options={filteredOpts}
               showSearch
               value={abx.code || undefined}
               onChange={(_, option) => handleSelectAbxChange(abx.id, option as ISelectOptions | undefined)}

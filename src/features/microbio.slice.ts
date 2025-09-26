@@ -23,6 +23,7 @@ interface IAppState {
     microorganisms: IMicroorganism[];
     antibiotics: IAntibiotic[];
   };
+  evaluation: IEvaluationRes | null;
 }
 
 const initialState: IAppState = {
@@ -36,6 +37,7 @@ const initialState: IAppState = {
     microorganisms: [],
     antibiotics: [],
   },
+  evaluation: null,
 };
 
 export const getMicroorganisms = createAsyncThunk<IMicroorganism[], undefined, { rejectValue: string }>(
@@ -159,9 +161,9 @@ export const microbioSlice = createSlice({
       .addCase(evaluateResults.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(evaluateResults.fulfilled, (state) => {
+      .addCase(evaluateResults.fulfilled, (state, action) => {
         state.isLoading = false;
-        //implement later
+        state.evaluation = action.payload;
       })
       .addCase(evaluateResults.rejected, (state) => {
         state.isLoading = false;

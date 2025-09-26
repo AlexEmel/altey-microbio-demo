@@ -32,6 +32,6 @@ export class MicrobioApi {
   }
 
   public async evaluate(payload: IEvaluationReq): Promise<IApiRes<IEvaluationRes>> {
-    return await handleApiRes<IApiRes<IEvaluationRes>>(this.api.post(`${this.path}/give-es`, payload));
+    return await handleApiRes<IApiRes<IEvaluationRes>>(this.api.post(`${this.path}/evaluate`, payload));
   }
 }
