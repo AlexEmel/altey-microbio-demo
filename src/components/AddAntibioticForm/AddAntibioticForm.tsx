@@ -174,6 +174,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
             />
             <InputNumber
               readOnly={!abx.code}
+              min={0}
               value={abx.zone}
               onChange={(value) => handleZoneChange(abx.id, value)}
               onBlur={() => handleZoneBlur(abx)}

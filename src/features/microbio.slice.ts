@@ -2,7 +2,7 @@ import { microbioApi } from "@/api/index.api";
 import {
   IAntibiotic,
   IEvaluationReq,
-  IEvaluationRes,
+  IEvaluation,
   IMicroorganism,
   ISelectedAntibiotic,
   ISelectedMicroorganism,
@@ -23,7 +23,7 @@ interface IAppState {
     microorganisms: IMicroorganism[];
     antibiotics: IAntibiotic[];
   };
-  evaluation: IEvaluationRes | null;
+  evaluation: IEvaluation | null;
 }
 
 const initialState: IAppState = {
@@ -92,7 +92,7 @@ export const getZone = createAsyncThunk<IZoneRes, string, { rejectValue: string 
   }
 );
 
-export const evaluateResults = createAsyncThunk<IEvaluationRes, IEvaluationReq, { rejectValue: string }>(
+export const evaluateResults = createAsyncThunk<IEvaluation, IEvaluationReq, { rejectValue: string }>(
   "evaluateResults",
   async (req, { rejectWithValue }) => {
     const res = await microbioApi.evaluate(req);
@@ -117,9 +117,12 @@ export const microbioSlice = createSlice({
     setAntibiogramMos: (state, action: PayloadAction<ISelectedMicroorganism[]>) => {
       state.antibiogram.selectedMos = action.payload;
     },
-    setAntibiogramAbxsForMo: (state, action: PayloadAction<{ moId: string; abxs: ISelectedAntibiotic[] }>) => {
+    setAntibiogramAbxsForMo: (
+      state,
+      action: PayloadAction<{ moId: string; abxs: ISelectedAntibiotic[] }>
+    ) => {
       const { moId, abxs } = action.payload;
-      const rest = state.antibiogram.selectedAbxs.filter(abx => abx.moId !== moId);
+      const rest = state.antibiogram.selectedAbxs.filter((abx) => abx.moId !== moId);
       state.antibiogram.selectedAbxs = [...rest, ...abxs];
     },
   },

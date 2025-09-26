@@ -5,10 +5,12 @@ import { ReactNode } from "react";
 import styles from "./Evaluation.module.scss";
 import Title from "antd/es/typography/Title";
 import { MapEvaluationReqDto } from "@/utils/mappers.util";
+import { EvaluationResultTabs } from "../EvaluationResultTabs/EvaluationResultTabs";
 
 export const Evaluation = (): ReactNode => {
   const { isLoading } = useAppSelector((store) => store.microbio);
   const { selectedMos, selectedAbxs } = useAppSelector((store) => store.microbio.antibiogram);
+  const { evaluation } = useAppSelector((store) => store.microbio);
   const dispatch = useAppDispatch();
 
   const handleEvaluate = (): void => {
@@ -23,6 +25,7 @@ export const Evaluation = (): ReactNode => {
       <Button type="primary" disabled={isLoading} onClick={handleEvaluate}>
         Интерпретировать результаты
       </Button>
+      {evaluation && <EvaluationResultTabs evaluation={evaluation} />}
     </Flex>
   );
 };

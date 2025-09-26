@@ -2,7 +2,7 @@ import { IApiRes } from "@/interfaces/api.interface";
 import {
   IAntibiotic,
   IEvaluationReq,
-  IEvaluationRes,
+  IEvaluation,
   IMicroorganism,
   IZoneReq,
   IZoneRes,
@@ -31,7 +31,7 @@ export class MicrobioApi {
     return await handleApiRes<IApiRes<IZoneRes>>(this.api.post(`${this.path}/give-sir`, payload));
   }
 
-  public async evaluate(payload: IEvaluationReq): Promise<IApiRes<IEvaluationRes>> {
-    return await handleApiRes<IApiRes<IEvaluationRes>>(this.api.post(`${this.path}/evaluate`, payload));
+  public async evaluate(payload: IEvaluationReq): Promise<IApiRes<IEvaluation>> {
+    return await handleApiRes<IApiRes<IEvaluation>>(this.api.post(`${this.path}/evaluate`, payload));
   }
 }

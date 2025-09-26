@@ -40,16 +40,19 @@ export interface IEvaluationReq {
   }[];
 }
 
-export interface IEvaluationRes {
-  es: EExpertSystem;
-  microorganisms: {
-    microorganismCode: string;
-    antibiotics: IZoneRes[];
-    markers: {
-      markerCode: string;
-      markerName: string;
-    }[];
-    esDescription: string;
-    interpretation: string[];
+export interface IEvaluationResult {
+  microorganismCode: string;
+  microorganismName: string;
+  antibiotics: IZoneRes[];
+  markers: {
+    markerCode: string;
+    markerName: string;
   }[];
+  esDescription: string;
+  interpretation: string[];
+}
+
+export interface IEvaluation {
+  es: EExpertSystem;
+  microorganisms: IEvaluationResult[];
 }

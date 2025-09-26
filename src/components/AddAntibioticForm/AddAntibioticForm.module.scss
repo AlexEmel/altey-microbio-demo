@@ -1,5 +1,5 @@
 @use "../../styles/vars";
-@use 'sass:color';
+@use "sass:color";
 
 .formbox {
   gap: 1rem;
@@ -50,19 +50,17 @@
 }
 
 .green {
-   background-color: color.adjust(vars.$success, $lightness: 50%);
+  background-color: color.adjust(vars.$success, $lightness: 50%);
 }
 
 .red {
-   background-color: color.adjust(vars.$altey-red, $lightness: 45%);
+  background-color: color.adjust(vars.$altey-red, $lightness: 45%);
 }
 
 .orange {
-   background-color: color.adjust(vars.$accent-orange, $lightness: 20%);
+  background-color: color.adjust(vars.$accent-orange, $lightness: 20%);
 }
 
 .purple {
-   background-color: color.adjust(vars.$altey-purple, $lightness: 35%);
+  background-color: color.adjust(vars.$altey-purple, $lightness: 35%);
 }
-
-
