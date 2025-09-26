@@ -1,19 +1,27 @@
-import { evaluate } from "@/features/microbio.slice";
+import { evaluateResults } from "@/features/microbio.slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { Button } from "antd";
+import { Button, Flex } from "antd";
 import { ReactNode } from "react";
+import styles from "./Evaluation.module.scss";
+import Title from "antd/es/typography/Title";
+import { MapEvaluationReqDto } from "@/utils/mappers.util";
 
 export const Evaluation = (): ReactNode => {
   const { isLoading } = useAppSelector((store) => store.microbio);
+  const { selectedMos, selectedAbxs } = useAppSelector((store) => store.microbio.antibiogram);
   const dispatch = useAppDispatch();
 
   const handleEvaluate = (): void => {
-    dispatch(evaluate());
-  }
+    const req = MapEvaluationReqDto(selectedMos, selectedAbxs);
+    dispatch(evaluateResults(req));
+  };
 
   return (
-    <>
-    <Button type="primary" disabled={isLoading}>Интерпретировать результаты</Button>
-    </>
+    <Flex className={styles.formbox}>
+      <Title level={3}>Шаг 3. Интерпретация результатов</Title>
+      <Button type="primary" disabled={isLoading} onClick={handleEvaluate}>
+        Интерпретировать результаты
+      </Button>
+    </Flex>
   );
 };

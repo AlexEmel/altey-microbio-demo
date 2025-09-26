@@ -1,4 +1,5 @@
 @use "../../styles/vars";
+@use 'sass:color';
 
 .formbox {
   gap: 1rem;
@@ -7,17 +8,44 @@
   flex-direction: column;
   background-color: vars.$main-white;
   align-items: flex-start;
-  .inputBox {
+  .abxList {
     width: 100%;
+    flex-direction: column;
     gap: 0.5rem;
-    flex-grow: 1;
-    .select {
-      flex: 1;
-    }
-    .sir {
-      width: 50px;
-      display: flex;
-      text-align: center;
+    .inputBox {
+      width: 100%;
+      gap: 0.5rem;
+      flex-grow: 1;
+      .select {
+        flex: 1;
+      }
+      .zone {
+        width: 70px;
+        text-align: center;
+      }
+      .sir {
+        width: 50px;
+        display: flex;
+        text-align: center;
+      }
     }
   }
 }
+
+.green {
+   background-color: color.adjust(vars.$success, $lightness: 50%);
+}
+
+.red {
+   background-color: color.adjust(vars.$altey-red, $lightness: 45%);
+}
+
+.orange {
+   background-color: color.adjust(vars.$accent-orange, $lightness: 20%);
+}
+
+.purple {
+   background-color: color.adjust(vars.$altey-purple, $lightness: 35%);
+}
+
+

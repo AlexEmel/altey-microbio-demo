@@ -6,7 +6,9 @@
 .ant-picker-outlined:focus-within,
 .ant-picker-outlined:hover,
 .ant-select-selector:focus-within,
-.ant-select-selector:hover {
+.ant-select-selector:hover,
+.ant-input-number-outlined:hover,
+.ant-input-number-outlined:focus-within {
   border-color: vars.$accent-orange !important;
 }
 

@@ -1,8 +1,8 @@
 import { microbioApi } from "@/api/index.api";
 import {
   IAntibiotic,
-  IEvaluateReq,
-  IEvaluateRes,
+  IEvaluationReq,
+  IEvaluationRes,
   IMicroorganism,
   ISelectedAntibiotic,
   ISelectedMicroorganism,
@@ -13,6 +13,7 @@ import { TRootState } from "@/store/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IAppState {
+  isPreLoading: boolean;
   isLoading: boolean;
   antibiogram: {
     selectedMos: ISelectedMicroorganism[];
@@ -25,6 +26,7 @@ interface IAppState {
 }
 
 const initialState: IAppState = {
+  isPreLoading: false,
   isLoading: false,
   antibiogram: {
     selectedMos: [],
@@ -88,10 +90,9 @@ export const getZone = createAsyncThunk<IZoneRes, string, { rejectValue: string 
   }
 );
 
-export const evaluate = createAsyncThunk<IEvaluateRes, IEvaluateReq, { rejectValue: string }>(
-  "evaluate",
-  async (req, { rejectWithValue, getState }) => {
-    // const { microbio } = getState() as TRootState;
+export const evaluateResults = createAsyncThunk<IEvaluationRes, IEvaluationReq, { rejectValue: string }>(
+  "evaluateResults",
+  async (req, { rejectWithValue }) => {
     const res = await microbioApi.evaluate(req);
     if (res.success && res.payload) {
       return res.payload;
@@ -114,31 +115,33 @@ export const microbioSlice = createSlice({
     setAntibiogramMos: (state, action: PayloadAction<ISelectedMicroorganism[]>) => {
       state.antibiogram.selectedMos = action.payload;
     },
-    setAntibiogramAbxs: (state, action: PayloadAction<ISelectedAntibiotic[]>) => {
-      state.antibiogram.selectedAbxs = action.payload;
+    setAntibiogramAbxsForMo: (state, action: PayloadAction<{ moId: string; abxs: ISelectedAntibiotic[] }>) => {
+      const { moId, abxs } = action.payload;
+      const rest = state.antibiogram.selectedAbxs.filter(abx => abx.moId !== moId);
+      state.antibiogram.selectedAbxs = [...rest, ...abxs];
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getMicroorganisms.pending, (state) => {
-        state.isLoading = true;
+        state.isPreLoading = true;
       })
       .addCase(getMicroorganisms.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isPreLoading = false;
         state.dictionaries.microorganisms = action.payload;
       })
       .addCase(getMicroorganisms.rejected, (state) => {
-        state.isLoading = false;
+        state.isPreLoading = false;
       })
       .addCase(getAntibiotics.pending, (state) => {
-        state.isLoading = true;
+        state.isPreLoading = true;
       })
       .addCase(getAntibiotics.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isPreLoading = false;
         state.dictionaries.antibiotics = action.payload;
       })
       .addCase(getAntibiotics.rejected, (state) => {
-        state.isLoading = false;
+        state.isPreLoading = false;
       })
       .addCase(getZone.pending, (state) => {
         state.isLoading = true;
@@ -153,17 +156,17 @@ export const microbioSlice = createSlice({
       .addCase(getZone.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(evaluate.pending, (state) => {
+      .addCase(evaluateResults.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(evaluate.fulfilled, (state) => {
+      .addCase(evaluateResults.fulfilled, (state) => {
         state.isLoading = false;
         //implement later
       })
-      .addCase(evaluate.rejected, (state) => {
+      .addCase(evaluateResults.rejected, (state) => {
         state.isLoading = false;
       });
   },
 });
 
-export const { reset, setIsLoading, setAntibiogramMos, setAntibiogramAbxs } = microbioSlice.actions;
+export const { reset, setIsLoading, setAntibiogramMos, setAntibiogramAbxsForMo } = microbioSlice.actions;

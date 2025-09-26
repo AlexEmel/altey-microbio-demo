@@ -1,3 +1,5 @@
+import { EExpertSystem, ESusceptibility } from "@/enums/common.enum";
+
 export interface IMicroorganism {
   code: string;
   name: string;
@@ -16,7 +18,7 @@ export interface ISelectedAntibiotic extends IAntibiotic {
   id: string;
   moId: string;
   zone: number | null;
-  SIR: string;
+  SIR: ESusceptibility;
 }
 
 export interface IZoneReq {
@@ -27,19 +29,19 @@ export interface IZoneReq {
 
 export interface IZoneRes extends IZoneReq {
   abxId?: string;
-  SIR: string;
+  SIR: ESusceptibility;
 }
 
-export interface IEvaluateReq {
-  es: string;
+export interface IEvaluationReq {
+  es: EExpertSystem;
   microorganisms: {
     microorganismCode: string;
     antibiotics: IZoneRes[];
   }[];
 }
 
-export interface IEvaluateRes {
-  es: string;
+export interface IEvaluationRes {
+  es: EExpertSystem;
   microorganisms: {
     microorganismCode: string;
     antibiotics: IZoneRes[];
