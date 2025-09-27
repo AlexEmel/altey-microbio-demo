@@ -1,6 +1,5 @@
 import { setAntibiogramMos } from "@/features/microbio.slice";
-import { ISelectedMicroorganism } from "@/interfaces/entities.interface";
-import { ISelectOptions } from "@/interfaces/utils.interface";
+import { IMicroorganism, ISelectedMicroorganism } from "@/interfaces/entities.interface";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Button, Flex, Select, Tooltip } from "antd";
@@ -12,18 +11,7 @@ import styles from "./AddMicroorganismForm.module.scss";
 export const AddMicroorganismForm = (): ReactNode => {
   const [selectedMos, setSelectedMos] = useState<ISelectedMicroorganism[]>([{ id: uuidv4(), code: "", name: "" }]);
   const { microorganisms } = useAppSelector((store) => store.microbio.dictionaries);
-  const [selectOptions, setSelectOptions] = useState<ISelectOptions[]>([]);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const options: ISelectOptions[] = microorganisms.map((mo) => {
-      return {
-        value: mo.code,
-        label: mo.name,
-      };
-    });
-    setSelectOptions(options);
-  }, [microorganisms]);
 
   useEffect(() => {
     if (selectedMos.length === 1 && !selectedMos[0].code) {
@@ -45,13 +33,13 @@ export const AddMicroorganismForm = (): ReactNode => {
     setSelectedMos([...selectedMos, newRow]);
   };
 
-  const handleSelectChange = (id: string, option: ISelectOptions | undefined): void => {
+  const handleSelectChange = (id: string, option: IMicroorganism | undefined): void => {
     if (!option) {
       return;
     }
     const updatedMos = selectedMos.map((mo) => {
       if (mo.id === id) {
-        return { ...mo, code: option.value, name: option.label };
+        return { ...mo, code: option.code, name: option.name };
       } else return mo;
     });
     setSelectedMos(updatedMos);
@@ -84,11 +72,12 @@ export const AddMicroorganismForm = (): ReactNode => {
           <Select
             placeholder="Выберите микроорганизм"
             optionFilterProp="label"
-            options={selectOptions}
+            fieldNames={{ value: 'code', label: 'name' }}
+            options={microorganisms}
             showSearch
             allowClear
             value={mo.code || undefined}
-            onChange={(_, option) => handleSelectChange(mo.id, option as ISelectOptions | undefined)}
+            onChange={(_, option) => handleSelectChange(mo.id, option as IMicroorganism | undefined)}
             onClear={() => handleClearSelect(mo.id)}
             className={styles.select}
           />
