@@ -67,25 +67,27 @@ export const AddMicroorganismForm = (): ReactNode => {
   return (
     <Flex className={styles.formbox}>
       <Title level={3}>Шаг 1. Выберите микроорганизмы</Title>
-      {selectedMos.map((mo) => (
-        <Flex key={mo.id} className={styles.inputBox}>
-          <Select
-            placeholder="Выберите микроорганизм"
-            optionFilterProp="label"
-            fieldNames={{ value: 'code', label: 'name' }}
-            options={microorganisms}
-            showSearch
-            allowClear
-            value={mo.code || undefined}
-            onChange={(_, option) => handleSelectChange(mo.id, option as IMicroorganism | undefined)}
-            onClear={() => handleClearSelect(mo.id)}
-            className={styles.select}
-          />
-          <Tooltip title='Удалить микроорганизм' mouseEnterDelay={0.4}>
-            <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo.id)}></Button>
-          </Tooltip>
-        </Flex>
-      ))}
+      <Flex className={styles.moList}>
+        {selectedMos.map((mo) => (
+          <Flex key={mo.id} className={styles.inputBox}>
+            <Select
+              placeholder="Выберите микроорганизм"
+              optionFilterProp="label"
+              fieldNames={{ value: 'code', label: 'name' }}
+              options={microorganisms}
+              showSearch
+              allowClear
+              value={mo.code || undefined}
+              onChange={(_, option) => handleSelectChange(mo.id, option as IMicroorganism | undefined)}
+              onClear={() => handleClearSelect(mo.id)}
+              className={styles.select}
+            />
+            <Tooltip title='Удалить микроорганизм' mouseEnterDelay={0.4}>
+              <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo.id)}></Button>
+            </Tooltip>
+          </Flex>
+        ))}
+      </Flex>
       <Button type="primary" icon={<PlusSquareOutlined />} onClick={addRow}>
         Добавить микроорганизм
       </Button>

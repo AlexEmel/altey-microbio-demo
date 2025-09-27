@@ -8,6 +8,11 @@
   flex-direction: column;
   background-color: vars.$main-white;
   align-items: flex-start;
+  h3 {
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+    }
+  }
   .abxList {
     width: 100%;
     flex-direction: column;
@@ -18,6 +23,10 @@
       flex-grow: 1;
       .select {
         flex: 1;
+        @media (max-width: 768px) {
+          flex-shrink: 0;
+          min-width: 50%;
+        }
       }
       .zone {
         width: 80px;
@@ -27,6 +36,9 @@
         width: 50px;
         display: flex;
         text-align: center;
+        @media (max-width: 768px) {
+          padding: 0;
+        }
       }
       .abxHeader {
         display: flex;

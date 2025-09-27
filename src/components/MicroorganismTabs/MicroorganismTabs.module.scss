@@ -1,4 +1,4 @@
-@use '../../styles/vars';
+@use "../../styles/vars";
 
 .tabContainer {
   gap: 1rem;
@@ -9,6 +9,10 @@
   background-color: vars.$main-white;
   border-radius: 1rem;
   border: 1px solid vars.$bg-blue;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-top: 0;
+  }
   .tabs {
     width: 100%;
     display: flex;

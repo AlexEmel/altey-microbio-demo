@@ -11,22 +11,37 @@
   top: 0;
   left: 0;
   z-index: 2;
+  @media (max-width: 768px) {
+    height: 40px;
+  }
   .titleBox {
     display: flex;
     align-items: center;
     gap: 2rem;
+    @media (max-width: 768px) {
+      gap: 1rem;
+    }
     .logo {
       opacity: 0.8;
       height: 30px;
+      @media (max-width: 768px) {
+        height: 20px;
+      }
     }
     .title {
       padding: 0;
       margin: 0;
       color: vars.$main-white !important;
       font-weight: 400;
+      @media (max-width: 768px) {
+        font-size: 1.2rem;
+      }
     }
   }
   .link {
     color: vars.$main-white;
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 }

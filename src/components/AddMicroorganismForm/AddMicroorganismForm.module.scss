@@ -1,4 +1,4 @@
-@use '../../styles/vars';
+@use "../../styles/vars";
 
 .formbox {
   gap: 1rem;
@@ -11,12 +11,26 @@
   border-radius: 1rem;
   align-items: flex-start;
   border: 1px solid vars.$bg-blue;
-  .inputBox {
+  @media (max-width: 768px) {
     width: 100%;
+  }
+  h3 {
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+    }
+  }
+  .moList {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
     gap: 0.5rem;
-    flex-grow: 1;
-    .select {
-      flex: 1;
+    .inputBox {
+      width: 100%;
+      gap: 0.5rem;
+      flex-grow: 1;
+      .select {
+        flex: 1;
+      }
     }
   }
 }

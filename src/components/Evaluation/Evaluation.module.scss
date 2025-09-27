@@ -1,4 +1,4 @@
-@use '../../styles/vars';
+@use "../../styles/vars";
 
 .formbox {
   gap: 1rem;
@@ -11,7 +11,22 @@
   border-radius: 1rem;
   align-items: flex-start;
   border: 1px solid vars.$bg-blue;
-  h3 {
-    margin: 0;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    h3 {
+      margin: 0;
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
+    }
+    p {
+      @media (max-width: 768px) {
+        font-size: 0.9rem;
+      }
+    }
   }
 }
