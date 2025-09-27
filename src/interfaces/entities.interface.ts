@@ -29,7 +29,7 @@ export interface IZoneReq {
 
 export interface IZoneRes extends IZoneReq {
   abxId?: string;
-  SIR: ESusceptibility;
+  SIR: ESusceptibility | string;
 }
 
 export interface IEvaluationReq {
