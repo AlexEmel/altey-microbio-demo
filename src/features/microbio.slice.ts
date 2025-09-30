@@ -68,6 +68,18 @@ export const getAntibiotics = createAsyncThunk<IAntibiotic[], undefined, { rejec
   }
 );
 
+export const loadDictionaries = createAsyncThunk<
+  { microorganisms: IMicroorganism[]; antibiotics: IAntibiotic[] },
+  undefined,
+  { rejectValue: string }
+>("loadDictionaries", async (_, { rejectWithValue }) => {
+  const [mosRes, abxRes] = await Promise.all([microbioApi.getMicroorganisms(), microbioApi.getAntibiotics()]);
+  if (!mosRes.success || !mosRes.payload || !abxRes.success || !abxRes.payload) {
+    return rejectWithValue(mosRes.error || abxRes.error || "Unexpected error");
+  }
+  return { microorganisms: mosRes.payload, antibiotics: abxRes.payload };
+});
+
 export const getZone = createAsyncThunk<IZoneRes, string, { rejectValue: string }>(
   "getZone",
   async (abxId, { rejectWithValue, getState }) => {
@@ -146,6 +158,17 @@ export const microbioSlice = createSlice({
         state.dictionaries.antibiotics = action.payload;
       })
       .addCase(getAntibiotics.rejected, (state) => {
+        state.isPreLoading = false;
+      })
+      .addCase(loadDictionaries.pending, (state) => {
+        state.isPreLoading = true;
+      })
+      .addCase(loadDictionaries.fulfilled, (state, action) => {
+        state.isPreLoading = false;
+        state.dictionaries.microorganisms = action.payload.microorganisms;
+        state.dictionaries.antibiotics = action.payload.antibiotics;
+      })
+      .addCase(loadDictionaries.rejected, (state) => {
         state.isPreLoading = false;
       })
       .addCase(getZone.pending, (state) => {

@@ -1,14 +1,13 @@
-import { useEffect } from "react"
-import { AppRouter } from "./routers/AppRouter"
-import { useAppDispatch } from "./store/store"
-import { getAntibiotics, getMicroorganisms } from "./features/microbio.slice";
+import { useEffect } from "react";
+import { loadDictionaries } from "./features/microbio.slice";
+import { AppRouter } from "./routers/AppRouter";
+import { useAppDispatch } from "./store/store";
 
 export const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getMicroorganisms());
-    dispatch(getAntibiotics())
+    dispatch(loadDictionaries());
   }, [])
 
   return <AppRouter />
