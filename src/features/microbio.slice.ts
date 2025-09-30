@@ -123,10 +123,14 @@ export const microbioSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
+      state.isLoading = false;
       state.antibiogram = {
         selectedMos: [],
         selectedAbxs: [],
       };
+      state.evaluation = null;
+    },
+    resetEvaluation: (state) => {
       state.evaluation = null;
     },
     setIsLoading: (state, action: PayloadAction<boolean>) => {
@@ -203,4 +207,5 @@ export const microbioSlice = createSlice({
   },
 });
 
-export const { reset, setIsLoading, setAntibiogramMos, setAntibiogramAbxsForMo } = microbioSlice.actions;
+export const { reset, resetEvaluation, setIsLoading, setAntibiogramMos, setAntibiogramAbxsForMo } =
+  microbioSlice.actions;

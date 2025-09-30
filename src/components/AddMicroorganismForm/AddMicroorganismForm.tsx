@@ -1,4 +1,4 @@
-import { setAntibiogramMos } from "@/features/microbio.slice";
+import { resetEvaluation, setAntibiogramMos } from "@/features/microbio.slice";
 import { IMicroorganism, ISelectedMicroorganism } from "@/interfaces/entities.interface";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
@@ -15,6 +15,7 @@ export const AddMicroorganismForm = (): ReactNode => {
 
   useEffect(() => {
     if (selectedMos.length === 1 && !selectedMos[0].code) {
+      dispatch(resetEvaluation());
       return;
     } else {
       dispatch(setAntibiogramMos(selectedMos));

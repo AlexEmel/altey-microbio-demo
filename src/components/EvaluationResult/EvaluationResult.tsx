@@ -1,8 +1,9 @@
 import { IEvaluationResult } from "@/interfaces/entities.interface";
-import { Table } from "antd";
+import { Flex, Table } from "antd";
 import Column from "antd/es/table/Column";
 import Title from "antd/es/typography/Title";
 import { FC, ReactNode } from "react";
+import styles from './EvaluationResult.module.scss'
 
 interface IEvaluationResultProps {
   result: IEvaluationResult;
@@ -10,13 +11,13 @@ interface IEvaluationResultProps {
 
 export const EvaluationResult: FC<IEvaluationResultProps> = ({ result }): ReactNode => {
   return (
-    <>
+    <Flex className={styles.evaluation}>
       <Title level={4}>Расширенная антибиотикограмма</Title>
       <Table dataSource={result.antibiotics} rowKey={"antibioticCode"} size="small" pagination={false}>
         <Column title="Антибиотик" key="antibioticName" dataIndex="antibioticName" />
         <Column title="SIR" key="SIR" dataIndex="SIR" />
       </Table>
-      {result.markers.length > 0 ? (
+      {result.markers && result.markers.length > 0 ? (
         <>
           <Title level={4}>Маркеры резистентности</Title>
           {result.markers.map((mrk) => (
@@ -26,14 +27,13 @@ export const EvaluationResult: FC<IEvaluationResultProps> = ({ result }): ReactN
       ) : null}
       {result.interpretation.length > 0 ? (
         <>
-          <p>
+          <Title level={5}>
             Сообщения экспертной системы в соответствии с таблицами Определение чувствительности
             микроорганизмов к антимикробным препаратам (Версия 2025-01):
-          </p>
+          </Title>
           { result.interpretation.map(intpr => <p>{intpr}</p>) }
         </>
       ) : null}
-      <></>
-    </>
+    </Flex>
   );
 };
