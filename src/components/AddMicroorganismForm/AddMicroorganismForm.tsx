@@ -72,7 +72,7 @@ export const AddMicroorganismForm = (): ReactNode => {
           <Flex key={mo.id} className={styles.inputBox}>
             <Select
               placeholder="Выберите микроорганизм"
-              optionFilterProp="label"
+              optionFilterProp="name"
               fieldNames={{ value: 'code', label: 'name' }}
               options={microorganisms}
               showSearch
