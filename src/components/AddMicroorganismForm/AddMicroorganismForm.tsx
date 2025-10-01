@@ -9,7 +9,9 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./AddMicroorganismForm.module.scss";
 
 export const AddMicroorganismForm = (): ReactNode => {
-  const [selectedMos, setSelectedMos] = useState<ISelectedMicroorganism[]>([{ id: uuidv4(), code: "", name: "" }]);
+  const [selectedMos, setSelectedMos] = useState<ISelectedMicroorganism[]>([
+    { id: uuidv4(), code: "", name: "" },
+  ]);
   const { microorganisms } = useAppSelector((store) => store.microbio.dictionaries);
   const dispatch = useAppDispatch();
 
@@ -74,7 +76,7 @@ export const AddMicroorganismForm = (): ReactNode => {
             <Select
               placeholder="Выберите микроорганизм"
               optionFilterProp="name"
-              fieldNames={{ value: 'code', label: 'name' }}
+              fieldNames={{ value: "code", label: "name" }}
               options={microorganisms}
               showSearch
               allowClear
@@ -83,9 +85,11 @@ export const AddMicroorganismForm = (): ReactNode => {
               onClear={() => handleClearSelect(mo.id)}
               className={styles.select}
             />
-            <Tooltip title='Удалить микроорганизм' mouseEnterDelay={0.4}>
-              <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo.id)}></Button>
-            </Tooltip>
+            {mo.code && (
+              <Tooltip title="Удалить микроорганизм" mouseEnterDelay={0.4}>
+                <Button icon={<DeleteOutlined />} onClick={() => handleRemoveMo(mo.id)}></Button>
+              </Tooltip>
+            )}
           </Flex>
         ))}
       </Flex>

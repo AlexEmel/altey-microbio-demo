@@ -196,11 +196,11 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
                 ) : (
                   <Input readOnly value={abx.SIR} className={getSirClasses(abx.SIR)} />
                 )}
+                <Tooltip title="Удалить антибиотик" mouseEnterDelay={0.4}>
+                  <Button icon={<DeleteOutlined />} onClick={() => handleRemoveAbx(abx.id)}></Button>
+                </Tooltip>
               </>
             )}
-            <Tooltip title="Удалить антибиотик" mouseEnterDelay={0.4}>
-              <Button icon={<DeleteOutlined />} onClick={() => handleRemoveAbx(abx.id)}></Button>
-            </Tooltip>
           </Flex>
         ))}
       </Flex>
