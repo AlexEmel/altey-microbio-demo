@@ -31,13 +31,21 @@
       .zone {
         width: 80px;
         text-align: center;
+        @media (max-width: 768px) {
+          width: 50px;
+        }
       }
       .sir {
         width: 50px;
         display: flex;
         text-align: center;
+        justify-content: center;
         @media (max-width: 768px) {
           padding: 0;
+        }
+        .infoIcon {
+          font-size: 1.2rem;
+          color: vars.$warning
         }
       }
       .abxHeader {
@@ -48,6 +56,9 @@
         width: 80px;
         display: flex;
         justify-content: center;
+        @media (max-width: 768px) {
+          width: 50px;
+        }
       }
       .sirHeader {
         width: 50px;

@@ -3,6 +3,7 @@ export enum ESusceptibility {
   I = "I",
   R = "R",
   ATU = "ATU",
+  NA = "NA"
 }
 
 export enum EExpertSystem {

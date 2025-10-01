@@ -1,15 +1,15 @@
 import { microbioApi } from "@/api/index.api";
+import { ESusceptibility } from "@/enums/common.enum";
 import { setAntibiogramAbxsForMo, setIsLoading } from "@/features/microbio.slice";
 import { ISelectedAntibiotic, IZoneReq } from "@/interfaces/entities.interface";
 import { ISelectOptions } from "@/interfaces/utils.interface";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { getDummyAbx } from "@/utils/mocks.util";
-import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import { DeleteOutlined, InfoCircleOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Button, Flex, Input, InputNumber, Select, Tooltip } from "antd";
 import Title from "antd/es/typography/Title";
 import { FC, ReactNode, useEffect, useState } from "react";
 import styles from "./AddAntibioticForm.module.scss";
-import { ESusceptibility } from "@/enums/common.enum";
 
 interface IAddAntibioticProps {
   moId: string;
@@ -66,7 +66,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
     const updatedAbxs = selectedAbxs.map((abx) => {
       if (abx.id === id) {
         if (abx.code && abx.code !== option.value) {
-          return { ...abx, code: option.value, name: option.label, zone: null, SIR: '' };
+          return { ...abx, code: option.value, name: option.label, zone: null, SIR: "" };
         } else {
           return { ...abx, code: option.value, name: option.label };
         }
@@ -105,7 +105,7 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
         if (res.success && res.payload) {
           const updatedAbxs = selectedAbxs.map((abx) => {
             if (abx.id === antibiotic.id) {
-              return { ...abx, SIR: res.payload!.SIR };
+              return { ...abx, SIR: res.payload?.SIR ? res.payload?.SIR : ESusceptibility.NA };
             } else {
               return abx;
             }
@@ -157,9 +157,13 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
       <Flex className={styles.abxList}>
         <Flex className={styles.inputBox}>
           <div className={styles.abxHeader}>Антибиотик</div>
-          <div className={styles.zoneHeader}>Значение</div>
-          <div className={styles.sirHeader}>SIR</div>
-          <div className={styles.btnHeader}></div>
+          {selectedAbxs[0].code && (
+            <>
+              <div className={styles.zoneHeader}>Значение</div>
+              <div className={styles.sirHeader}>SIR</div>
+              <div className={styles.btnHeader}></div>
+            </>
+          )}
         </Flex>
         {selectedAbxs.map((abx) => (
           <Flex key={abx.id} className={styles.inputBox}>
@@ -172,16 +176,28 @@ export const AddAntibioticForm: FC<IAddAntibioticProps> = ({ moId }): ReactNode 
               onChange={(_, option) => handleSelectAbxChange(abx.id, option as ISelectOptions | undefined)}
               className={styles.select}
             />
-            <InputNumber
-              readOnly={!abx.code}
-              min={0}
-              value={abx.zone}
-              onChange={(value) => handleZoneChange(abx.id, value)}
-              onBlur={() => handleZoneBlur(abx)}
-              disabled={isLoading}
-              className={styles.zone}
-            />
-            <Input readOnly value={abx.SIR} className={getSirClasses(abx.SIR)} />
+            {abx.code && (
+              <>
+                <InputNumber
+                  readOnly={!abx.code}
+                  min={0}
+                  value={abx.zone}
+                  onChange={(value) => handleZoneChange(abx.id, value)}
+                  onBlur={() => handleZoneBlur(abx)}
+                  disabled={isLoading}
+                  className={styles.zone}
+                />
+                {abx.SIR === ESusceptibility.NA ? (
+                  <Flex className={styles.sir}>
+                    <Tooltip title="Для выделенного микроорганизма не установлены пограничные значения в соответствии с 'Определение чувствительности микроорганизмов к антимикробным препаратам (Версия 2025-01)'">
+                      <InfoCircleOutlined className={styles.infoIcon} />
+                    </Tooltip>
+                  </Flex>
+                ) : (
+                  <Input readOnly value={abx.SIR} className={getSirClasses(abx.SIR)} />
+                )}
+              </>
+            )}
             <Tooltip title="Удалить антибиотик" mouseEnterDelay={0.4}>
               <Button icon={<DeleteOutlined />} onClick={() => handleRemoveAbx(abx.id)}></Button>
             </Tooltip>

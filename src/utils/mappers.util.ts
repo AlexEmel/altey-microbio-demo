@@ -1,4 +1,4 @@
-import { EExpertSystem } from "@/enums/common.enum";
+import { EExpertSystem, ESusceptibility } from "@/enums/common.enum";
 import {
   IEvaluationReq,
   ISelectedAntibiotic,
@@ -23,7 +23,7 @@ export const MapEvaluationReqDto = (
           microorganismCode: mo.code,
           antibioticCode: abx.code,
           zone: abx.zone ? abx.zone.toString() : "",
-          SIR: abx.SIR,
+          SIR: abx.SIR === ESusceptibility.NA ? '' : abx.SIR,
         };
       });
     mosAbxMap.set(mo.code, abxResults);
