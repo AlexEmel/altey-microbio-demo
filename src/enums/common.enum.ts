@@ -7,5 +7,5 @@ export enum ESusceptibility {
 }
 
 export enum EExpertSystem {
-  EUCAST2024 = "EUCAST2024",
+  EUCST25 = "EUCST25",
 }

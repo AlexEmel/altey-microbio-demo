@@ -30,7 +30,7 @@ export const MapEvaluationReqDto = (
   });
 
   const req: IEvaluationReq = {
-    es: EExpertSystem.EUCAST2024,
+    es: EExpertSystem.EUCST25,
     microorganisms: [],
   };
 

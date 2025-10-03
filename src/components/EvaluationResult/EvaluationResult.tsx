@@ -15,7 +15,7 @@ export const EvaluationResult: FC<IEvaluationResultProps> = ({ result }): ReactN
       <Title level={4}>Расширенная антибиотикограмма</Title>
       <Table dataSource={result.antibiotics} rowKey={"antibioticCode"} size="small" pagination={false}>
         <Column title="Антибиотик" key="antibioticName" dataIndex="antibioticName" />
-        <Column title="SIR" key="SIR" dataIndex="SIR" />
+        <Column title="SIR" key="sir" dataIndex="sir" />
       </Table>
       {result.markers && result.markers.length > 0 ? (
         <>
